@@ -1,5 +1,0 @@
-# Will change
-
-database = {
-    "tasks": [],
-}
