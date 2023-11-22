@@ -1,0 +1,5 @@
+# Will change
+
+database = {
+    "tasks": [],
+}
