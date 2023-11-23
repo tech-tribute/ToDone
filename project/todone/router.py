@@ -1,4 +1,4 @@
-from app import app, db
+from todone import app, db
 from flask import request, render_template, redirect
 from todone.models import *
 

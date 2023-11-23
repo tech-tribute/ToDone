@@ -1,4 +1,4 @@
-from app import db
+from todone import db
 from sqlalchemy import Column, String, Integer, DateTime
 from datetime import datetime
 
