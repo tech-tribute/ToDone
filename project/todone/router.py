@@ -3,11 +3,6 @@ from flask import request, render_template, redirect
 from todone.models import *
 
 
-@app.before_request
-def dbInit():
-    db.create_all()
-
-
 # URLS :
 
 
