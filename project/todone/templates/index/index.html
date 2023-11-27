@@ -1,22 +1,22 @@
 {% extends "base/base.html" %}
-
-{% block title %}Index | ToDone{% endblock title %}
+{% block title %}
+    Index | tasks
+{% endblock title %}
 {% block content %}
-    <h1>Tasks :</h1>
-    <table>
-        <tr>
-            <th>
-                Task
-            </th>
-            <th>
-                Create
-            </th>
-            <th>
-                Actions
-            </th>
-        </tr>
-
-        {% if tasks %}
+    <div>
+        {% if tasks %}  
+        <table>
+            <tr>
+                <th>
+                    Task
+                </th>
+                <th>
+                    Create
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
             {% for task in tasks %}
                 <tr>
                     <th>
@@ -30,13 +30,18 @@
                         <a href="update/{{task.id}}">Update</a>
                     </th>
                 </tr>
-        {% endfor %}
-    </table>
+                {% endfor %}
+        </table>
         {% else %}
-            <p>No tasks</p>
+            <p>There is no task on current database</p>
         {% endif %}
-    <form method="post">
-        <input type="text" name="caption">
-        <input type="submit" value="Add">
-    </form>
+    </div>
+
+    <div>
+        <form action="/" method="post">
+        {{form.hidden_tag()}}
+        caption {{form.caption}}<br/>
+        <input type="submit" value="submit">
+        </form>
+    </div>
 {% endblock content %}

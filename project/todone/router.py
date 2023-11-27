@@ -1,33 +1,33 @@
 from todone import app, db
 from flask import request, render_template, redirect
 from todone.models import *
-
+from todone.forms import CreateTaskForm
 
 # URLS :
 
 
 @app.route("/", methods=("POST", "GET"))
 def index():
+    form = CreateTaskForm()
     if request.method == "POST":
-        form = request.form.to_dict()
-        caption = form["caption"]
+        if not form.validate_on_submit():
+            return "Data is not valid!", 400
+        caption = form.caption.data
+        new_tast = Task(caption=caption)
 
-        # validation
-        if not caption:
-            return "You must enter something for caption!"
-
-        try:
-            new_task = Task(caption=caption)
-            db.session.add(new_task)
+        if not new_tast.checkCaption(caption=caption):
+            return "Camtion is not valid!", 400
+        
+        try :
+            db.session.add(new_tast)
             db.session.commit()
         except:
-            return "something went wrong! (During adding your task)"
+            return "Something went wrong during adding your task", 500
 
-        return redirect("/")
-    elif request.method == "GET":
+        return render_template("index/index.html", form=form)
+    else :
         tasks = Task.query.all()
-
-    return render_template("index/index.html", tasks=tasks)
+        return render_template("index/index.html", form=form, tasks=tasks)
 
 
 @app.route("/delete/<int:id>")
