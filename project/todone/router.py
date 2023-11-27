@@ -23,11 +23,10 @@ def index():
             db.session.commit()
         except:
             return "Something went wrong during adding your task", 500
-
-        return render_template("index/index.html", form=form)
-    else :
-        tasks = Task.query.all()
-        return render_template("index/index.html", form=form, tasks=tasks)
+        
+    
+    tasks = Task.query.all()
+    return render_template("index/index.html", form=form, tasks=tasks)
 
 
 @app.route("/delete/<int:id>")
