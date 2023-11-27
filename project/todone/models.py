@@ -8,3 +8,7 @@ class Task(db.Model):
     id = Column(Integer(), nullable=False, primary_key=True)
     caption = Column(String(128), nullable=False)
     create = Column(DateTime(), default=datetime.now, nullable=False)
+
+    def checkCaption(self, caption):
+        if len(caption) < 3: return False
+        return True
