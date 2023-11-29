@@ -1,5 +1,5 @@
 from todone import app, db
-from flask import request, render_template, redirect
+from flask import request, render_template, redirect, session, flash, url_for
 from todone.models import *
 from todone.forms import CreateTaskForm
 
@@ -11,20 +11,23 @@ def index():
     form = CreateTaskForm()
     if request.method == "POST":
         if not form.validate_on_submit():
-            return "Data is not valid!", 400
+            flash("Data is wrong!!")
+            return redirect(url_for("index"))
+        
         caption = form.caption.data
         new_tast = Task(caption=caption)
 
         if not new_tast.checkCaption(caption=caption):
-            return "Camtion is not valid!", 400
-        
-        try :
+            flash("Caption is not valid!")
+            return redirect(url_for("index"))
+
+        try:
             db.session.add(new_tast)
             db.session.commit()
         except:
-            return "Something went wrong during adding your task", 500
-        
-    
+            flash("Something went wrong during adding your task")
+            return redirect(url_for("index"))
+
     tasks = Task.query.all()
     return render_template("index/index.html", form=form, tasks=tasks)
 
@@ -37,9 +40,10 @@ def deleteTask(id):
         db.session.delete(task)
         db.session.commit()
     except:
-        return f"Something went wrong during deleting the task id:{id}"
+        flash("Something went wrong during deleting your task")
+        return redirect(url_for("index"))
 
-    return redirect("/")
+    return redirect(url_for("index"))
 
 
 @app.route("/update/<int:id>", methods=("POST", "GET"))
@@ -51,7 +55,8 @@ def updateTask(id):
         new_caption = form["caption"]
 
         if not new_caption:
-            return "You must enter something for caption!"
+            flash(f"Something went wrong during updating your task id : {id}")
+            return redirect(url_for("updateTask", id=id))
 
         task.caption = new_caption
 
@@ -59,6 +64,7 @@ def updateTask(id):
             db.session.commit()
             return redirect("/")
         except:
-            return f"Something went wrong during updating the task id:{id}"
+            flash(f"Something went wrong during updating your task id : {id}")
+            return redirect(url_for("updateTask",id=id))
 
     return render_template("index/update.html", task=task)

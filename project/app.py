@@ -7,5 +7,5 @@ if __name__ == "__main__":
     # >>> flask db init
     # >>> flask db migrate
     # >>> flask db upgrade
-    
-    app.run(debug=True, port=800)
+
+    app.run(debug=True, port=8000)
