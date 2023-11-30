@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from todone.config import Config, Development
+from todone.config import Development
 from flask_migrate import Migrate
 
 

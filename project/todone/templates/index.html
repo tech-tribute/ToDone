@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+{% block title %}
+    ToDone
+{% endblock title %}
+{% block style %}
+    "static/css/base.css"
+{% endblock style %}
+{% block content %}
+    <h3>Welcome !</h3>
+
+    <p>
+        <a href="{{url_for('todo')}}">Create a To-do list</a>
+    </p>
+
+{% endblock content %}
