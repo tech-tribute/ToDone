@@ -32,7 +32,7 @@
 				<div class="view">
 					<input name="done" class="toggle" type="checkbox" {% if task.done %}checked{% endif %}>
 					<label>{{ task.caption }}</label>
-					<a href="{{url_for('todo')}}"><button class="destroy" oneclick ></button></a>
+					<a href="{{url_for('deleteTask', id=task.id)}}"><button class="destroy"></button></a>
 				</div>
 			</li>
 			{% endfor %}
