@@ -15,5 +15,5 @@ class CreateTaskForm(FlaskForm):
     )
 
 
-# class DatabaseForm(FlaskForm):
-#     todo_list = FileField("todo_list", [DataRequired()])
+class DatabaseForm(FlaskForm):
+    todo_list = FileField("todo_list", [DataRequired()])

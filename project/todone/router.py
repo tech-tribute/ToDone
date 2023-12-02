@@ -67,4 +67,8 @@ def todo():
 
 @app.route("/todo/delete/<int:id>")
 def deleteTask(id):
-    pass
+    task = Task.query.get(id)
+    if task:
+        db.session.delete(task)
+        db.session.commit()
+    return redirect(url_for("todo"))
