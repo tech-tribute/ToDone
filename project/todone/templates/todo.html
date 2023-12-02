@@ -64,10 +64,18 @@
 	</footer>
 </section>
 
+{% with messages = get_flashed_messages(True) %}
+	{% if messages %}
+		{% for category, message in messages  %}
+			<p>{{category}} : <br>{{ message }}</p>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
+
 <footer class="info">
 	<p>Click to edit a todo</p>
-	<p>Created by <a href="https://github.com/aliireza1101">Aliireza</a></p>
-	<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+	<p>Created by <a href="https://github.com/aliireza1101">Aliireza</a> & <a href="https://github.com/alistar1381">AliStar</a></p>
+	<p>Repository on <a href="https://github.com/tech-tribute/ToDone/">GitHub</a></p>
 </footer>
 
 <div id="data" hidden>

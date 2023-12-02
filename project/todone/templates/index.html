@@ -12,4 +12,12 @@
         <a href="{{url_for('todo')}}">Create a To-do list</a>
     </p>
 
+    {% with messages = get_flashed_messages(True) %}
+        {% if messages %}
+            {% for category, message in messages  %}
+                <p>{{category}} : <br>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
 {% endblock content %}

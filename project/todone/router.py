@@ -21,13 +21,12 @@ def todo():
     # Create a form and then return it to the template to use it
     form = CreateTaskForm()
     if request.method == "POST":
-        # Validating the form
         if not form.validate_on_submit():
             # Message of flash will save in SessionCookie, we can use that in template to show errors and warnings to the user
-            flash("Data is wrong!!")
+            flash("Data is wrong!!", "error")
             return redirect(url_for("todo"))
 
-        # Extracting information from the form filled by the user
+        # Extracting information from
         caption = form.caption.data
 
         # Create an object of Task Table in db (It must be committed to save the changes)
@@ -35,7 +34,7 @@ def todo():
 
         # Validating data
         if not new_task.is_caption(caption):
-            flash("Caption mush contain more that 3 characters!")
+            flash("Caption must contain more that 3 characters!", "error")
             return redirect(url_for("todo"))
 
         try:
@@ -43,7 +42,7 @@ def todo():
             db.session.add(new_task)
             db.session.commit()
         except:
-            flash("Something went wrong during adding your task!")
+            flash("Something went wrong during adding your task!", "error")
             return redirect(url_for("todo"))
 
     # Getting all of the tasks from database (We need to show them to user)
