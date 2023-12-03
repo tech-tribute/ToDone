@@ -9,6 +9,9 @@ class Config:
     # Secret key used to sign session cookies for protection against cookie data tampering
     SECRET_KEY = "T{}|$_|$$0$3CR3T_LOL"
 
+    # UPLOAD_FOLDER is where we will store the uploaded files
+    UPLOAD_FOLDER = "uploads"
+
 
 # Configs that will be used in Development
 class Development(Config):

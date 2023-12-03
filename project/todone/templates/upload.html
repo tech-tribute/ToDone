@@ -1,0 +1,17 @@
+{% extends "base/base.html" %}
+{% block title %}
+Upload Development
+{% endblock title %}
+{% block style %}
+"static/css/base.css"
+{% endblock style %}
+{% block content %}
+<h1>Open a To-do lsit</h1>
+
+<form action="{{ url_for('upload') }}" enctype="multipart/form-data" method="post">
+    {{form.hidden_tag()}}
+    {{form.todo_list()}}
+    <input type="submit" value="Open File">
+</form>
+
+{% endblock content %}

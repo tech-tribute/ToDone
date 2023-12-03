@@ -2,8 +2,33 @@ from todone import app, db
 from flask import request, render_template, redirect, flash, url_for
 from todone.models import *
 from todone.forms import CreateTaskForm, DatabaseForm
+from werkzeug.utils import secure_filename
+import os
+from todone.utils import allowed_file
+
 
 # Create Views/Urls/routes below
+
+
+@app.route("/upload", methods=("POST", "GET"))
+def upload():
+    form = DatabaseForm()
+    if request.method == "POST":
+        # check if the post request has the file part
+        if "todo_list" not in request.files:
+            flash("No file part")
+            return redirect(request.url)
+        file = request.files["todo_list"]
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == "":
+            flash("No selected file")
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
+    return render_template("upload.html", form=form)
 
 
 @app.route("/", methods=("POST", "GET"))
