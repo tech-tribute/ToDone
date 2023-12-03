@@ -4,54 +4,57 @@ from todone.models import *
 from todone.forms import CreateTaskForm, DatabaseForm
 from werkzeug.utils import secure_filename
 import os
-from todone.utils import allowed_file
+from todone.utils import allowedFile, now
 
 
 # Create Views/Urls/routes below
 
 
-@app.route("/upload", methods=("POST", "GET"))
+@app.route("/upload", methods=("POST",))
 def upload():
-    form = DatabaseForm()
-    if request.method == "POST":
-        # check if the post request has the file part
-        if "todo_list" not in request.files:
-            flash("No file part")
-            return redirect(request.url)
-        file = request.files["todo_list"]
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == "":
-            flash("No selected file")
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+    # check if the post request has the file part
+    if "todo_list" not in request.files:
+        flash("No file part", "error")
+        return redirect(url_for("index"))
+    file = request.files["todo_list"]
 
-    return render_template("upload.html", form=form)
+    # If the user does not select a file, the browser submits an
+    # empty file without a filename.
+    if file.filename == "":
+        flash("No selected file", "error")
+        return redirect(url_for("index"))
+
+    if not allowedFile(file.filename):
+        flash("You can upload only json files!", 'error')
+        return redirect(url_for("index"))
+
+    filename = secure_filename(file.filename)
+    file.save(os.path.join("project\\", app.config["UPLOAD_FOLDER"], filename))
+
+    return redirect(url_for("todo", filename=filename))
 
 
 @app.route("/", methods=("POST", "GET"))
 def index():
     # Create a form and then return it to the template to use it
     form = DatabaseForm()
+
     return render_template("index.html", form=form)
 
 
+@app.route("/todo/<string:filename>", methods=("POST", "GET"))
 @app.route("/todo", methods=("POST", "GET"))
-def todo():
-    # If request of method is GET program will catch data from database and show them to user via rendering a template
-    # If request of method is POST program will catch data and save them into database and render the template again
-
-    # Create a form and then return it to the template to use it
+def todo(filename=None):
     form = CreateTaskForm()
+
     if request.method == "POST":
         if not form.validate_on_submit():
-            # Message of flash will save in SessionCookie, we can use that in template to show errors and warnings to the user
+            # Message of flash will save in SessionCookie,
+            # we can use that in template to show errors and warnings to the user
             flash("Data is wrong!!", "error")
             return redirect(url_for("todo"))
 
-        # Extracting information from
+        # Extracting information from form
         caption = form.caption.data
 
         # Create an object of Task Table in db (It must be committed to save the changes)
@@ -70,16 +73,40 @@ def todo():
             flash("Something went wrong during adding your task!", "error")
             return redirect(url_for("todo"))
 
-    # Getting all of the tasks from database (We need to show them to user)
+    # Address of route directory (TODONE)
+    ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    # ------------------------------------------------------ 
+    # In development
+
+    # if no file chosen
+    if not filename:
+        # making path
+        filename = f"{now()}.json"
+        filepath = os.path.join(ROOT_DIR, f"{app.config['UPLOAD_FOLDER']}\{filename}")
+
+        # create a json file
+        open(filepath, "x")
+        return redirect(url_for("todo", filename=filename))
+
+    # if file is not in db folder
+    filepath = os.path.join(ROOT_DIR, f"{app.config['UPLOAD_FOLDER']}\{filename}")
+    if filename and not os.path.isfile(filepath):
+        flash(f"There is no such a file named : {filename}")
+        return redirect("index")
+    # ------------------------------------------------------
+
+    # All of the tasks
     tasks = Task.query.all()
 
-    # Getting all of the completed tasks from database
+    # All of the completed tasks
     completed_tasks = Task.query.filter(Task.done == True).all()
 
-    # In localhost/todo/ The user can choose the filter with which the tasks will be displayed, and we get the type of filtering using the GET method.
+    # In localhost/todo/ The user can choose the filter with which
+    # the tasks will be displayed, and we get the type of filtering using the GET method.
     active_filter = request.args.get("filter")
 
-    # Rendering the final template with values we want!
+
     return render_template(
         "todo.html",
         tasks=tasks,

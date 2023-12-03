@@ -10,7 +10,7 @@ class Config:
     SECRET_KEY = "T{}|$_|$$0$3CR3T_LOL"
 
     # UPLOAD_FOLDER is where we will store the uploaded files
-    UPLOAD_FOLDER = "uploads"
+    UPLOAD_FOLDER = "db"
 
 
 # Configs that will be used in Development

@@ -1,3 +1,5 @@
+import datetime
+
 ALLOWED_EXTENSIONS = {"json"}
 
 
@@ -6,9 +8,10 @@ class FileNotAllowedError(Exception):
 
     pass
 
-
+# check  the format of file allowed?
 def allowedFile(filename):
-    if not "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS:
-        raise FileNotAllowedError(
-            "Exception occurred: You can upload only .json files!"
-        )
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# Getting time
+def now():
+    return datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
