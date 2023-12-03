@@ -67,7 +67,7 @@ instance/
 migrations/
 
 # Project stuff:
-uploads/
+db/
 
 # Scrapy stuff:
 .scrapy
