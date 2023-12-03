@@ -66,6 +66,9 @@ instance/
 .webassets-cache
 migrations/
 
+# Project stuff:
+uploads/
+
 # Scrapy stuff:
 .scrapy
 
