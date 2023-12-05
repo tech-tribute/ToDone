@@ -3,7 +3,7 @@
     ToDone
 {% endblock title %}
 {% block style %}
-    "static/css/todo.css"
+    {{url_for("static", filename="css/todo.css")}}
 {% endblock style %}
 {% block content %}
 <section mv-app="todoapp" class="todoapp"

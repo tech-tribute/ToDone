@@ -3,7 +3,7 @@
     ToDone
 {% endblock title %}
 {% block style %}
-    "static/css/base.css"
+    {{url_for("static", filename="css/base.css")}}
 {% endblock style %}
 {% block content %}
 
