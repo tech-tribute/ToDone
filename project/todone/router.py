@@ -62,12 +62,10 @@ def todo():
             if not new_task.is_caption(caption):
                 flash("Caption must contain more than 3 characters!", "error")
             else:
-                try:
-                    tasks.append(new_task)
-                    task_manager.save_data_to_json(tasks)
-                    flash("Task added successfully!", "success")
-                except:
-                    flash("Something went wrong during adding your task!", "error")
+                tasks.append(new_task)
+                task_manager.save_data_to_json()
+                flash("Task added successfully!", "success")
+              
 
     return render_template(
         "todo.html",

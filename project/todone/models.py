@@ -8,7 +8,9 @@ class Task:
         self.caption = caption
         self.create = create
         self.done = done
-
+        
+    
+    
     def to_dict(self):
         return {
             'id': self.id,
@@ -19,12 +21,10 @@ class Task:
 
     @classmethod
     def from_dict(cls, data):
-        return cls(
-            id=data['id'],
-            caption=data['caption'],
-            create=datetime.fromisoformat(data['create']),
-            done=data['done']
-        )
+        create = datetime.fromisoformat(data['create'])  # Deserialize datetime from string
+        return cls(data['id'], data['caption'], create, data['done'])
+    
+    
     def is_caption(self, caption):
         return len(caption) > 3
 
@@ -32,7 +32,7 @@ class TaskManager:
     def __init__(self, json_file_path):
         self.json_file_path = json_file_path
         self.tasks = self.load_data_from_json()
-
+    
     def load_data_from_json(self):
         try:
             with open(self.json_file_path, 'r') as json_file:
