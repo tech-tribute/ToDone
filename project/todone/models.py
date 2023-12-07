@@ -73,3 +73,6 @@ class TaskManager:
 
     def query_done_tasks(self):
         return [task for task in self.tasks if task.done]
+    
+    def query_undone_tasks(self):
+        return [task for task in self.tasks if not task.done]

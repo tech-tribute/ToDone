@@ -13,7 +13,7 @@
 			mv-init="#data">
 	<header class="header">
 		<h1>To Done</h1>
-		<form action="{{ url_for('todo') }}" method="post">
+		<form action="{{ url_for('todo', filename=filename) }}" method="post">
 			{{ form.hidden_tag() }}
 			{{ form.caption() }}
 		</form>
@@ -22,9 +22,6 @@
     <section class="main" {% if tasks|length == 0 %}hidden{% endif %}>
 
 		<input id="toggle-all" class="toggle-all" type="checkbox">
-		<label for="toggle-all" mv-action="set(done, !toggleAll)">
-			Mark all as complete
-		</label>
 
 		<ul class="todo-list">
 			{% for task in tasks %}
@@ -32,7 +29,7 @@
 				<div class="view">
 					<input name="done" class="toggle" type="checkbox" {% if task.done %}checked{% endif %}>
 					<label>{{ task.caption }}</label>
-					<a href="{{url_for('deleteTask', id=task.id)}}"><button class="destroy"></button></a>
+					<a href="{{url_for('deleteTask', filename=filename, id=task.id)}}"><button class="destroy"></button></a>
 				</div>
 			</li>
 			{% endfor %}
@@ -48,13 +45,13 @@
 
         <ul class="filters">
             <li>
-                <a href={{url_for('todo', filter="all")}} class="{{ 'selected' if active_filter == 'all' }}">All</a>
+                <a href={{url_for('todo', filename=filename,filter="all")}} class="{{ 'selected' if active_filter == 'all' }}">All</a>
             </li>
             <li>
-                <a href="{{url_for('todo', filter="active")}}" class="{{ 'selected' if active_filter == 'active' }}">Active</a>
+                <a href="{{url_for('todo', filename=filename, filter="active")}}" class="{{ 'selected' if active_filter == 'active' }}">Active</a>
             </li>
             <li>
-                <a href="{{url_for('todo', filter="completed")}}" class="{{ 'selected' if active_filter == 'completed' }}">Completed</a>
+                <a href="{{url_for('todo', filename=filename, filter="completed")}}" class="{{ 'selected' if active_filter == 'completed' }}">Completed</a>
             </li>
         </ul>
 
@@ -77,35 +74,4 @@
 	<p>Created by <a href="https://github.com/aliireza1101">Aliireza</a> & <a href="https://github.com/alistar1381">AliStar</a></p>
 	<p>Repository on <a href="https://github.com/tech-tribute/ToDone/">GitHub</a></p>
 </footer>
-
-<div id="data" hidden>
-	{
-		"todo": [
-			{
-				"done": true,
-				"text": "Taste JavaScript"
-			},
-			{
-				"text": "Code furiously",
-				"done": true
-			},
-			{
-				"text": "Promote Mavo",
-				"done": false
-			},
-			{
-				"text": "Give talks",
-				"done": false
-			},
-			{
-				"text": "Write tutorials",
-				"done": true
-			},
-			{
-				"text": "Have a life!",
-				"done": false
-			}
-		]
-	}
-</div>
 {% endblock content %}

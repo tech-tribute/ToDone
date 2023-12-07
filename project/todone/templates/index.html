@@ -9,6 +9,19 @@
 
     <h1>Welcome !</h1>
 
+    {% if todo_lists %}    
+    <h3>Available To-do lists :</h3>
+    <ul>
+        {% for todo_list in todo_lists %}
+        <li>
+            <a href="todo/{{todo_list}}"> {{ todo_list }} </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <h3>There is no To-do list available</h3>
+    {% endif %}
+
     <h3>
         <a href="{{url_for('todo')}}">Create a To-do list</a>
     </h3>
