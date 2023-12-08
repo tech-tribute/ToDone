@@ -1,68 +1,106 @@
+/* index.css */
+
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    line-height: 1.6;
+    background-color: #121212;
+    /* Dark background */
+    color: #ffffff;
+    /* Light text for readability */
     margin: 0;
     padding: 0;
 }
 
 .header {
-    background: #333;
-    color: #fff;
-    padding: 20px 0;
     text-align: center;
+    padding: 20px;
+    background-color: #333333;
+    /* Slightly lighter dark shade for header */
+}
+
+.header h1 {
+    color: #00d1b2;
+    /* Teal color for the main heading */
+    margin: 0;
 }
 
 .main-content {
-    padding: 20px;
+    width: 90%;
     max-width: 800px;
-    margin: auto;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
 }
 
 .todo-lists {
-    list-style: none;
+    list-style-type: none;
+    /* Removes default list styling */
     padding: 0;
 }
 
 .todo-list-item {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    margin-bottom: 5px;
+    background-color: #252525;
+    /* Darker background for each item */
+    margin-bottom: 10px;
     padding: 10px;
+    border-radius: 4px;
 }
 
 .todo-list-item a {
+    color: #1e90ff;
+    /* Light blue color for links */
     text-decoration: none;
-    color: #333;
+    /* Removes underline from links */
+    display: block;
 }
 
-.create-todo,
-.open-todo {
-    margin-top: 20px;
-    text-align: center;
+.create-todo h3,
+.open-todo h3 {
+    color: #ffffff;
+    /* Light text for subheadings */
+    margin-top: 30px;
+}
+
+.create-todo a,
+.open-todo a {
+    color: #4caf50;
+    /* Green color for actionable links */
+    text-decoration: none;
 }
 
 .btn {
     display: inline-block;
-    padding: 10px 20px;
-    cursor: pointer;
-    background-color: #5cb85c;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #4caf50;
+    /* Green background for buttons */
+    color: #ffffff;
+    /* White text for buttons */
     border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #43a047;
+    /* A shade darker for hover state */
+}
+
+.messages {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
 }
 
 .flash-messages {
-    list-style: none;
+    list-style-type: none;
+    /* Removes default list styling */
     padding: 0;
 }
 
 .flash-messages li {
-    background-color: #e74c3c;
-    color: white;
-    margin: 10px 0;
+    background-color: #dc3545;
+    /* Red background for flash messages */
     padding: 10px;
-    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 4px;
 }

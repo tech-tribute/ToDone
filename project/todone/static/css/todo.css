@@ -1,23 +1,30 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
+    background-color: #121212;
+    /* Dark background for the body */
     margin: 0;
     padding: 0;
+    color: #ffffff;
+    /* Light text for better readability on dark bg */
 }
 
 .container {
     width: 90%;
     max-width: 600px;
     margin: 20px auto;
-    background-color: #fff;
+    background-color: #1e1e1e;
+    /* Dark background for the container */
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* Subtle box-shadow for depth */
     overflow: hidden;
 }
 
 .header {
     background-color: #007bff;
+    /* Keeping the blue header */
     color: #ffffff;
+    /* White text color for the header */
     padding: 15px 20px;
     text-align: center;
 }
@@ -38,9 +45,12 @@ body {
 
 .todo-item {
     padding: 10px 20px;
-    border-bottom: 1px solid #ededed;
+    border-bottom: 1px solid #2c2c2c;
+    /* Dark border for list items */
     display: flex;
     align-items: center;
+    background-color: #252525;
+    /* Slight variation for the bg of todo items */
 }
 
 .todo-item:last-child {
@@ -53,18 +63,22 @@ body {
 
 .todo-text {
     flex-grow: 1;
+    color: #e0e0e0;
+    /* Lighter text color for contrast */
 }
 
 .delete-btn {
     background: none;
     border: none;
     color: #ff6b6b;
+    /* Red color for delete button contrasts well on dark bg */
     font-size: 20px;
     cursor: pointer;
 }
 
 .footer {
-    background-color: #f7f7f7;
+    background-color: #1c1c1c;
+    /* Dark background for the footer */
     padding: 10px 20px;
     display: flex;
     align-items: center;
@@ -72,6 +86,8 @@ body {
 }
 
 .todo-count {
+    color: #d1d1d1;
+    /* Lighter text color for better readability */
     margin: 0;
 }
 
@@ -81,17 +97,20 @@ body {
 
 .filters a {
     text-decoration: none;
-    color: #007bff;
+    color: #a1a1a1;
+    /* Subdued link color */
     margin: 0 5px;
     padding: 5px;
 }
 
 .filters a.selected {
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #ffffff;
+    /* White border for the selected filter */
 }
 
 .clear-completed {
     background-color: #dc3545;
+    /* Keep the red color for clear completed */
     border: none;
     padding: 5px 10px;
     color: white;
@@ -101,12 +120,19 @@ body {
 
 .flash-message {
     text-align: center;
-    color: #dc3545;
+    background-color: #323232;
+    /* Dark background for flash messages */
+    color: #ffffff;
+    /* Light text color for flash messages */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
 }
 
 .info {
     text-align: center;
     padding: 20px;
     font-size: 0.9em;
-    color: #777;
+    color: #777777;
+    /* Subdued color for less important text */
 }

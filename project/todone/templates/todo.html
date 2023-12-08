@@ -40,14 +40,18 @@
 			class="clear-completed">Clear completed</button>
 		{% endif %}
 	</footer>
+		
 </div>
 {% for category, message in get_flashed_messages(with_categories=true) %}
 <div class="flash-message {{ category }}">{{ message }}</div>
 {% endfor %}
 <footer class="info">
+	<a href="{{url_for('download',filename=filename)}}">
+		<button style="color:white;background-color:green; font-size: medium;padding: 2px;">Download</button>
+	</a>
 	<p>Click to edit a todo</p>
 	<p>Created by <a href="https://github.com/aliireza1101">Aliireza</a> & <a
-			href="https://github.com/alistar1381">AliStar</a></p>
+			href="https://github.com/alistar1381">Alistar</a></p>
 	<p>Repository on <a href="https://github.com/tech-tribute/ToDone/">GitHub</a></p>
 </footer>
 {% endblock %}

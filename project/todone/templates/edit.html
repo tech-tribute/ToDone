@@ -1,17 +1,18 @@
 {% extends "base/base.html" %}
-{% block title %}
-ToDone
-{% endblock title %}
+{% block title %}Edit Task{% endblock %}
 {% block style %}
-{{url_for("static", filename="css/index.css")}}
-{% endblock style %}
+    "{{ url_for('static', filename='css/edit.css') }}"
+{% endblock %}
 {% block content %}
-    <h1>Edit a task</h1>
-
-<form action="{{ url_for('edit', filename=filename, id=id) }}" method="post">
-    {{form.hidden_tag()}}
-    <p>Enter new caption {{form.caption()}}</p>
-    {{form.submit}}
-</form>
-
-{% endblock content %}
+<div class="edit-container">
+    <h1 class="edit-header">Edit a Task</h1>
+    <form class="edit-form" action="{{ url_for('edit', filename=filename, id=id) }}" method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label>New Caption</label>
+            {{ form.caption(class='caption-input') }}
+        </div>
+        {{ form.submit(class='submit-btn') }}
+    </form>
+</div>
+{% endblock %}
