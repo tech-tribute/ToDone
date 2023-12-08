@@ -62,8 +62,9 @@ def todo(filename: str = None):
 
     filter_ = request.args.get("filter")
     tasks = filter_by(filter_, task_manager)
+    tasks_not_done = task_manager.query_undone_tasks()
 
-    return render_template("todo.html", tasks=tasks, form=form, filename=filename)
+    return render_template("todo.html", tasks=tasks, form=form, filename=filename, tasks_not_done=tasks_not_done)
 
 
 @app.route("/todo/<string:filename>/delete/<int:id>")

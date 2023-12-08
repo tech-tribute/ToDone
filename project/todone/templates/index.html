@@ -1,45 +1,54 @@
 {% extends "base/base.html" %}
-{% block title %}
-    ToDone
-{% endblock title %}
+{% block title %}ToDone{% endblock title %}
 {% block style %}
-    {{url_for("static", filename="css/index.css")}}
+    "{{ url_for('static', filename='css/index.css') }}"
 {% endblock style %}
 {% block content %}
 
-    <h1>Welcome !</h1>
+<div class="header">
+    <h1>Welcome to ToDone !</h1>
+</div>
 
-    {% if todo_lists %}    
-    <h3>Available To-do lists :</h3>
-    <ul>
+<div class="main-content">
+    {% if todo_lists %}
+    <h3>Available To-do lists:</h3>
+    <ul class="todo-lists">
         {% for todo_list in todo_lists %}
-        <li>
-            <a href="todo/{{todo_list}}"> {{ todo_list }} </a>
+        <li class="todo-list-item">
+            <a href="{{ url_for('todo', filename=todo_list) }}"> {{ todo_list }} </a>
         </li>
         {% endfor %}
     </ul>
     {% else %}
-    <h3>There is no To-do list available</h3>
+    <h3>There are no To-do lists available.</h3>
     {% endif %}
 
-    <h3>
-        <a href="{{url_for('todo')}}">Create a To-do list</a>
-    </h3>
+    <div class="create-todo">
+        <h3>
+            <a href="{{ url_for('todo') }}">Create a new To-do list</a>
+        </h3>
+    </div>
 
+    <div class="open-todo">
+        <h3>Open a To-do list :</h3>
+        <form action="{{ url_for('upload') }}" enctype="multipart/form-data" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.todo_list() }}
+            <input class="btn" type="submit" value="Open File">
+        </form>
+    </div>
+</div>
 
-    <h3>Open a To-do lsit</h3>
-    <form action="{{ url_for('upload') }}" enctype="multipart/form-data" method="post">
-        {{form.hidden_tag()}}
-        {{form.todo_list()}}
-        <input type="submit" value="Open File">
-    </form>
-
-    {% with messages = get_flashed_messages(True) %}
-        {% if messages %}
-            {% for category, message in messages  %}
-                <p>{{category}} : <br>{{ message }}</p>
-            {% endfor %}
-        {% endif %}
+<div class="messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flash-messages">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     {% endwith %}
+</div>
 
 {% endblock content %}
