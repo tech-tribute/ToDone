@@ -1,7 +1,77 @@
-{% extends 'parent/base.html' %}
+{% extends "base/base.html" %}
+{% block title %}
+    ToDone
+{% endblock title %}
 {% block style %}
-{{ url_for('static', filename='css/todo.css' ) }}
-{% endblock %}
+    {{url_for("static", filename="css/todo.css")}}
+{% endblock style %}
 {% block content %}
-<h1>To-Do Route</h1>
-{% endblock %}
+<section mv-app="todoapp" class="todoapp"
+			mv-bar="none" mv-storage="local"
+			mv-autosave="3"
+			mv-mode="edit"
+			mv-init="#data">
+	<header class="header">
+		<h1>To Done</h1>
+		<form action="{{ url_for('todo', filename=filename) }}" method="post">
+			{{ form.hidden_tag() }}
+			{{ form.caption() }}
+		</form>
+	</header>
+	<!-- This section should be hidden by default and shown when there are todos -->
+    <section class="main" {% if tasks|length == 0 %}hidden{% endif %}>
+
+		<input id="toggle-all" class="toggle-all" type="checkbox">
+
+		<ul class="todo-list">
+			{% for task in tasks %}
+			<li class="{{ 'completed' if task.done else '' }}">
+				<div class="view">
+					<input name="done" class="toggle" type="checkbox" {% if task.done %}checked{% endif %}>
+					<label>{{ task.caption }}</label>
+					<a href="{{url_for('deleteTask', filename=filename, id=task.id)}}"><button class="destroy"></button></a>
+				</div>
+			</li>
+			{% endfor %}
+		</ul>
+	</section>
+	<!-- This footer should be hidden by default and shown when there are todos -->
+	<footer {% if tasks|length == 0 %}hidden{% endif %} class="footer">
+	    {% set tasks_done = tasks|selectattr("done", "equalto", true)|list %}
+        {% set tasks_not_done = tasks|selectattr("done", "equalto", false)|list %}
+        <span class="todo-count">
+            <strong>{{ tasks_not_done|length }}</strong> item{{ tasks_not_done|length == 1 }} left
+        </span>
+
+        <ul class="filters">
+            <li>
+                <a href={{url_for('todo', filename=filename,filter="all")}} class="{{ 'selected' if active_filter == 'all' }}">All</a>
+            </li>
+            <li>
+                <a href="{{url_for('todo', filename=filename, filter="active")}}" class="{{ 'selected' if active_filter == 'active' }}">Active</a>
+            </li>
+            <li>
+                <a href="{{url_for('todo', filename=filename, filter="completed")}}" class="{{ 'selected' if active_filter == 'completed' }}">Completed</a>
+            </li>
+        </ul>
+
+		<button class="clear-completed" {% if tasks_done|length == 0 %}hidden{% endif %}>
+			Clear completed
+		</button>
+	</footer>
+</section>
+
+{% with messages = get_flashed_messages(True) %}
+	{% if messages %}
+		{% for category, message in messages  %}
+			<p>{{category}} : <br>{{ message }}</p>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
+
+<footer class="info">
+	<p>Click to edit a todo</p>
+	<p>Created by <a href="https://github.com/aliireza1101">Aliireza</a> & <a href="https://github.com/alistar1381">AliStar</a></p>
+	<p>Repository on <a href="https://github.com/tech-tribute/ToDone/">GitHub</a></p>
+</footer>
+{% endblock content %}
