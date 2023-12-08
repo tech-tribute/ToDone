@@ -60,7 +60,6 @@
 		</button></a>
 	</footer>
 </section>
-
 {% with messages = get_flashed_messages(True) %}
 	{% if messages %}
 		{% for category, message in messages  %}
@@ -70,6 +69,9 @@
 {% endwith %}
 
 <footer class="info">
+	<a href="{{url_for('download',filename=filename)}}">
+		<button style="color:white;background-color:green; font-size: medium;padding: 2px;">Download</button>
+	</a>
 	<p>Click to edit a todo</p>
 	<p>Created by <a href="https://github.com/aliireza1101">Aliireza</a> & <a href="https://github.com/alistar1381">AliStar</a></p>
 	<p>Repository on <a href="https://github.com/tech-tribute/ToDone/">GitHub</a></p>

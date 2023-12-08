@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, flash, url_for
+from flask import request, render_template, redirect, flash, url_for, send_file
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import os
@@ -144,3 +144,8 @@ def edit(filename: str, id: int):
 
 
     return render_template("edit.html", form=form, filename=filename, id=id)
+
+@app.route("/download/<string:filename>")
+def download(filename):
+    s = generate_json_path(filename)
+    return send_file(s, as_attachment=True)
