@@ -55,9 +55,9 @@
             </li>
         </ul>
 
-		<button class="clear-completed" {% if tasks_done|length == 0 %}hidden{% endif %}>
+		<a href="{{ url_for('clearCompleted', filename=filename) }}"><button class="clear-completed" {% if tasks_done|length==0 %}hidden{% endif %} onclick="">
 			Clear completed
-		</button>
+		</button></a>
 	</footer>
 </section>
 

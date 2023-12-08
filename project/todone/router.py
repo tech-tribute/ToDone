@@ -17,6 +17,7 @@ from todone import app
 
 # Create Views/Urls/routes here.
 
+
 @app.route("/", methods=("POST", "GET"))
 def index():
     # Create a form and then return it to the template to use it
@@ -75,10 +76,23 @@ def deleteTask(filename, id):
         task_manager.tasks.remove(task[0])
         task_manager.save_data_to_json()
 
-    return redirect(url_for("todo", filename=filename) )
+    return redirect(url_for("todo", filename=filename))
 
 
-@app.route("/upload", methods=("POST",))
+@app.route("/todo/<string:filename>/clear/")
+def clearCompleted(filename):
+    filepath = generate_json_path(filename)
+    task_manager = TaskManager(filepath)
+
+    tasks = task_manager.query_done_tasks()
+    for task in tasks:
+        task_manager.tasks.remove(task)
+        task_manager.save_data_to_json()
+
+    return redirect(url_for("todo", filename=filename))
+
+
+@app.route("/upload/", methods=("POST",))
 def upload():
     # check if the post request has the file part
     if "todo_list" not in request.files:
