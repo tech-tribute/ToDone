@@ -28,7 +28,7 @@
 			<li class="{{ 'completed' if task.done else '' }}">
 				<div class="view">
 					<input name="done" class="toggle" type="checkbox" {% if task.done %}checked{% endif %}>
-					<label>{{ task.caption }}</label>
+					<label><a href="{{ url_for('edit', filename=filename, id=task.id )}}">{{ task.caption }}</a></label>
 					<a href="{{url_for('deleteTask', filename=filename, id=task.id)}}"><button class="destroy"></button></a>
 				</div>
 			</li>

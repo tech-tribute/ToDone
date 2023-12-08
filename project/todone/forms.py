@@ -29,12 +29,25 @@ class DatabaseForm(FlaskForm):
 class TaskForm(FlaskForm):
     caption = StringField(
         "Caption",
-        validators=[DataRequired()], 
+        validators=[DataRequired()],
         render_kw={
             "placeholder": "What needs to be done?",
             "autofocus": True,
-            "class":"new-todo",
-            "value":""
+            "class": "new-todo",
+            "value": "",
         },
     )
     submit = SubmitField("Add Task")
+
+
+class EditTaskForm(FlaskForm):
+    caption = StringField(
+        "Caption",
+        validators=[DataRequired()],
+        render_kw={
+            "placeholder": "Caption",
+            "autofocus": True,
+            "value": "",
+        },
+    )
+    submit = SubmitField("Edit Task")

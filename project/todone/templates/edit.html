@@ -1,0 +1,17 @@
+{% extends "base/base.html" %}
+{% block title %}
+ToDone
+{% endblock title %}
+{% block style %}
+{{url_for("static", filename="css/index.css")}}
+{% endblock style %}
+{% block content %}
+    <h1>Edit a task</h1>
+
+<form action="{{ url_for('edit', filename=filename, id=id) }}" method="post">
+    {{form.hidden_tag()}}
+    <p>Enter new caption {{form.caption()}}</p>
+    {{form.submit}}
+</form>
+
+{% endblock content %}

@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 
 from todone.models import *
-from todone.forms import DatabaseForm, TaskForm
+from todone.forms import DatabaseForm, TaskForm, EditTaskForm
 from todone.utils import (
     allowedFile,
     generate_numeric_id,
@@ -114,3 +114,33 @@ def upload():
     file.save(os.path.join("project\\", app.config["UPLOAD_FOLDER"], filename))
 
     return redirect(url_for("todo", filename=filename))
+
+
+@app.route("/todo/<string:filename>/edit/<int:id>/", methods=("GET", "POST",))
+def edit(filename: str, id: int):
+    # if file is not in db folder
+    filepath = generate_json_path(filename)
+    if filename and not os.path.isfile(filepath):
+        flash(f"There is no such a file named : {filename}")
+        return redirect(url_for("index"))
+
+    form = EditTaskForm()
+    # To do CRUD operations on json file
+    task_manager = TaskManager(filepath)
+
+    if request.method == "POST":
+        if form.validate_on_submit():
+            task = task_manager.query_by_id(id)[0]
+            caption = form.caption.data
+
+            new_task = Task(id=id, caption=caption, create=task.create, done=task.done)
+            if not new_task.is_caption(caption):
+                flash("Caption must contain more than 3 characters!", "error")
+                return redirect(url_for("edit", filename=filename, id=id))
+
+            task_manager.tasks[task_manager.tasks.index(task)] = new_task
+            task_manager.save_data_to_json()
+            return redirect(url_for("todo", filename=filename))
+
+
+    return render_template("edit.html", form=form, filename=filename, id=id)
