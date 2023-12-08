@@ -28,7 +28,7 @@ def index():
 
 
 @app.route("/todo/<string:filename>", methods=("POST", "GET"))
-@app.route("/todo", methods=("GET",))
+@app.route("/todo/", methods=("GET",))
 def todo(filename: str = None):
     # if no file chosen
     if not filename:
