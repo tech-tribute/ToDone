@@ -11,8 +11,7 @@ from todone.utils import (
     generate_numeric_id,
     create_json,
     filter_by,
-    mark_as_done,
-    mark_as_undone,
+    mark_as,
 )
 from todone import app
 
@@ -164,16 +163,14 @@ def edit(filename: str, id: int):
             task_manager.save_data_to_json()
             return redirect(url_for("todo", filename=filename))
     else:
-        mark_as = request.args.get("mark_as")
-        if not mark_as(mark_as, id, task_manager):
-            flash("Something went wrong while changing information!", "error")
+        mark_ = request.args.get("mark_as")
+        if mark_:
+            if not mark_as(mark_, id, task_manager):
+                flash("Something went wrong while changing information!", "error")
 
-        return redirect(url_for("todo", filename=filename))
+            return redirect(url_for("todo", filename=filename))
 
     return render_template("edit.html", form=form, filename=filename, id=id)
-
-
-# @app.route("todo/<string:filename>/")
 
 
 @app.route("/download/<string:filename>")
