@@ -4,13 +4,15 @@ from datetime import datetime
 import os
 
 from todone.models import *
-from todone.forms import DatabaseForm, TaskForm, EditTaskForm
+from todone.forms import *
 from todone.utils import (
     allowedFile,
+    generate_json_path,
     generate_numeric_id,
     create_json,
-    generate_json_path,
     filter_by,
+    mark_as_done,
+    mark_as_undone,
 )
 from todone import app
 
@@ -64,11 +66,17 @@ def todo(filename: str = None):
     tasks = filter_by(filter_, task_manager)
     tasks_not_done = task_manager.query_undone_tasks()
 
-    return render_template("todo.html", tasks=tasks, form=form, filename=filename, tasks_not_done=tasks_not_done)
+    return render_template(
+        "todo.html",
+        tasks=tasks,
+        form=form,
+        filename=filename,
+        tasks_not_done=tasks_not_done,
+    )
 
 
 @app.route("/todo/<string:filename>/delete/<int:id>")
-def deleteTask(filename, id):
+def delete(filename, id):
     filepath = generate_json_path(filename)
     task_manager = TaskManager(filepath)
 
@@ -117,7 +125,13 @@ def upload():
     return redirect(url_for("todo", filename=filename))
 
 
-@app.route("/todo/<string:filename>/edit/<int:id>/", methods=("GET", "POST",))
+@app.route(
+    "/todo/<string:filename>/edit/<int:id>/",
+    methods=(
+        "GET",
+        "POST",
+    ),
+)
 def edit(filename: str, id: int):
     # if file is not in db folder
     filepath = generate_json_path(filename)
@@ -131,22 +145,38 @@ def edit(filename: str, id: int):
 
     if request.method == "POST":
         if form.validate_on_submit():
+            # Catch task from db/json
             task = task_manager.query_by_id(id)[0]
+
+            # New caption
             caption = form.caption.data
 
+            # Make new task with the same id but different values
             new_task = Task(id=id, caption=caption, create=task.create, done=task.done)
+
+            # Validate
             if not new_task.is_caption(caption):
                 flash("Caption must contain more than 3 characters!", "error")
                 return redirect(url_for("edit", filename=filename, id=id))
 
+            # Replace old task with new task
             task_manager.tasks[task_manager.tasks.index(task)] = new_task
             task_manager.save_data_to_json()
             return redirect(url_for("todo", filename=filename))
+    else:
+        mark_as = request.args.get("mark_as")
+        if not mark_as(mark_as, id, task_manager):
+            flash("Something went wrong while changing information!", "error")
 
+        return redirect(url_for("todo", filename=filename))
 
     return render_template("edit.html", form=form, filename=filename, id=id)
 
+
+# @app.route("todo/<string:filename>/")
+
+
 @app.route("/download/<string:filename>")
 def download(filename):
-    s = generate_json_path(filename)
-    return send_file(s, as_attachment=True)
+    filepath = generate_json_path(filename)
+    return send_file(filepath, as_attachment=True)

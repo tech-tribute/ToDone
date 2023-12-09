@@ -46,11 +46,9 @@ body {
 .todo-item {
     padding: 10px 20px;
     border-bottom: 1px solid #2c2c2c;
-    /* Dark border for list items */
     display: flex;
     align-items: center;
     background-color: #252525;
-    /* Slight variation for the bg of todo items */
 }
 
 .todo-item:last-child {
@@ -64,16 +62,58 @@ body {
 .todo-text {
     flex-grow: 1;
     color: #e0e0e0;
-    /* Lighter text color for contrast */
+    text-decoration: none;
 }
+
+.mark-as-done-btn,
+.mark-as-undone-btn {
+    /* Common styles for both buttons */
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    /* Adjust size as needed */
+    font-size: 16px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+    border-radius: 50%;
+    /* This makes the button a circle */
+    width: 30px;
+    /* Width of the button */
+    height: 30px;
+    /* Height of the button */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mark-as-done-btn {
+    background-color: #007bff;
+    /* Blue background for done button */
+    text-decoration: none;
+}
+
+.todo-item.completed .mark-as-undone-btn {
+    background-color: #555;
+    /* Muted color for completed tasks */
+    color: white;
+    text-decoration: none;
+}
+
+/* Rest of the styles remain unchanged */
 
 .delete-btn {
     background: none;
     border: none;
     color: #ff6b6b;
-    /* Red color for delete button contrasts well on dark bg */
     font-size: 20px;
     cursor: pointer;
+}
+
+.todo-item.completed .todo-text {
+    text-decoration: line-through;
+    color: #7f8c8d;
+    /* grey out completed task */
 }
 
 .footer {

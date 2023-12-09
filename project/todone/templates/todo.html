@@ -15,12 +15,21 @@
 	<section class="task-list" {% if not tasks %}style="display: none;" {% endif %}>
 		<ul class="todos">
 			{% for task in tasks %}
-			<li class="todo-item {{ 'completed' if task.done }}">
-				<input type="checkbox" class="check-todo" {% if task.done %}checked{% endif %}>
-				<a href="{{ url_for('edit', filename=filename, id=task.id )}}" class="todo-text">{{ task.caption }}</a>
-				<button onclick="location.href='{{ url_for('deleteTask', filename=filename, id=task.id) }}'"
-					class="delete-btn">&times;</button>
-			</li>
+
+				<li class="todo-item {{ 'completed' if task.done }}">
+					{% if not task.done %}
+					<a href="{{url_for('edit', filename=filename, id=task.id, mark_as='done')}}">
+						<button class="mark-as-done-btn">&times;</button>
+					</a>
+					{% else %}
+					<a href="{{url_for('edit', filename=filename, id=task.id, mark_as='undone')}}">
+						<button class="mark-as-undone-btn">&times;</button>
+					</a>
+					{% endif %}
+					<a href="{{ url_for('edit', filename=filename, id=task.id )}}" class="todo-text">{{ task.caption }}</a>
+					<button onclick="location.href='{{ url_for('delete', filename=filename, id=task.id) }}'"
+						class="delete-btn">&times;</button>
+				</li>
 			{% endfor %}
 		</ul>
 	</section>
